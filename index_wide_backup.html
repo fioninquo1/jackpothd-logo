@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JackpotHD - Logo Variációk</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;700;900&family=Rajdhani:wght@600;700&family=Alfa+Slab+One&family=Space+Grotesk:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0f;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+    color: #888;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 50px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .card {
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+  }
+
+  .card-number {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    z-index: 2;
+    opacity: 0.6;
+  }
+
+  .card-style-name {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    z-index: 2;
+    opacity: 0.5;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    padding: 50px 30px;
+  }
+
+  .logo-area svg {
+    max-width: 380px;
+    width: 100%;
+    height: auto;
+  }
+
+  .card-footer {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .palette {
+    display: flex;
+    gap: 6px;
+  }
+
+  .palette-color {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s;
+  }
+
+  .palette-color:hover {
+    transform: scale(1.2);
+  }
+
+  .palette-color::after {
+    content: attr(data-hex);
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.55rem;
+    color: #666;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+  }
+
+  .palette-color:hover::after {
+    opacity: 1;
+  }
+
+  .download-btn {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #aaa;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    letter-spacing: 0.05em;
+  }
+
+  .download-btn:hover {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+  }
+
+  /* Card themes */
+  .card-1 { background: #0d0d18; border: 1px solid rgba(255,0,200,0.15); }
+  .card-1 .card-number, .card-1 .card-style-name { color: #ff66cc; }
+
+  .card-2 { background: #0c0a08; border: 1px solid rgba(212,175,55,0.2); }
+  .card-2 .card-number, .card-2 .card-style-name { color: #d4af37; }
+
+  .card-3 { background: #f5f5f5; border: 1px solid #e0e0e0; }
+  .card-3 .card-number, .card-3 .card-style-name { color: #333; }
+  .card-3 .card-footer { border-top-color: rgba(0,0,0,0.08); }
+  .card-3 .download-btn { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); color: #666; }
+  .card-3 .download-btn:hover { background: rgba(0,0,0,0.1); color: #333; }
+  .card-3 .palette-color { border-color: rgba(0,0,0,0.1); }
+
+  .card-4 { background: #0e0b1a; border: 1px solid rgba(139,92,246,0.2); }
+  .card-4 .card-number, .card-4 .card-style-name { color: #a78bfa; }
+
+  .card-5 { background: #1a0a0a; border: 1px solid rgba(200,50,50,0.15); }
+  .card-5 .card-number, .card-5 .card-style-name { color: #cc6644; }
+
+  .card-6 { background: #060d12; border: 1px solid rgba(0,210,150,0.12); }
+  .card-6 .card-number, .card-6 .card-style-name { color: #00d296; }
+
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(20px);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    transition: transform 0.4s ease;
+    z-index: 100;
+    pointer-events: none;
+  }
+
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<h1>JACKPOTHD</h1>
+<p class="subtitle">Logo variációk &mdash; kattints a letöltés gombra az SVG mentéséhez</p>
+
+<div class="grid">
+
+  <!-- ==================== #1 NEON CASINO ==================== -->
+  <div class="card card-1">
+    <span class="card-number">#1</span>
+    <span class="card-style-name">Neon Casino</span>
+    <div class="logo-area">
+      <svg id="logo-1" viewBox="0 0 480 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="neonGlow">
+            <feGaussianBlur stdDeviation="3" result="blur1"/>
+            <feGaussianBlur stdDeviation="8" result="blur2"/>
+            <feMerge>
+              <feMergeNode in="blur2"/>
+              <feMergeNode in="blur1"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          <linearGradient id="neonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ff00cc"/>
+            <stop offset="50%" stop-color="#cc00ff"/>
+            <stop offset="100%" stop-color="#7b2fff"/>
+          </linearGradient>
+          <filter id="neonGlowIcon">
+            <feGaussianBlur stdDeviation="2.5" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <!-- Slot 7 icon -->
+        <g filter="url(#neonGlowIcon)" transform="translate(10, 20)">
+          <rect x="5" y="5" width="60" height="90" rx="10" fill="none" stroke="#ff00cc" stroke-width="2"/>
+          <text x="35" y="72" text-anchor="middle" font-family="'Orbitron', sans-serif" font-size="52" font-weight="900" fill="url(#neonGrad)">7</text>
+        </g>
+        <!-- Main text -->
+        <text x="90" y="88" font-family="'Orbitron', sans-serif" font-size="58" font-weight="900" fill="url(#neonGrad)" filter="url(#neonGlow)" letter-spacing="3">JACKPOT</text>
+        <!-- HD badge -->
+        <rect x="413" y="48" width="56" height="32" rx="4" fill="none" stroke="#ff00cc" stroke-width="1.5" filter="url(#neonGlowIcon)"/>
+        <text x="441" y="71" text-anchor="middle" font-family="'Orbitron', sans-serif" font-size="18" font-weight="700" fill="#ff00cc" filter="url(#neonGlowIcon)">HD</text>
+        <!-- Underline glow -->
+        <line x1="90" y1="98" x2="469" y2="98" stroke="url(#neonGrad)" stroke-width="1" opacity="0.4" filter="url(#neonGlow)"/>
+      </svg>
+    </div>
+    <div class="card-footer">
+      <div class="palette">
+        <div class="palette-color" style="background:#ff00cc" data-hex="#ff00cc"></div>
+        <div class="palette-color" style="background:#cc00ff" data-hex="#cc00ff"></div>
+        <div class="palette-color" style="background:#7b2fff" data-hex="#7b2fff"></div>
+        <div class="palette-color" style="background:#0d0d18" data-hex="#0d0d18"></div>
+        <div class="palette-color" style="background:#1a1a2e" data-hex="#1a1a2e"></div>
+      </div>
+      <button class="download-btn" onclick="downloadSVG('logo-1', 'jackpothd-neon-casino')">Letöltés SVG</button>
+    </div>
+  </div>
+
+  <!-- ==================== #2 LUXUS / ROYAL GOLD ==================== -->
+  <div class="card card-2">
+    <span class="card-number">#2</span>
+    <span class="card-style-name">Luxus / Royal Gold</span>
+    <div class="logo-area">
+      <svg id="logo-2" viewBox="0 0 480 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#f5d780"/>
+            <stop offset="45%" stop-color="#d4af37"/>
+            <stop offset="100%" stop-color="#a07818"/>
+          </linearGradient>
+          <linearGradient id="goldGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f5d780"/>
+            <stop offset="100%" stop-color="#d4af37"/>
+          </linearGradient>
+        </defs>
+        <!-- Crown icon -->
+        <g transform="translate(18, 28)">
+          <polygon points="0,55 8,20 20,40 35,5 50,40 62,20 70,55" fill="url(#goldGrad)" opacity="0.9"/>
+          <rect x="0" y="55" width="70" height="12" rx="2" fill="url(#goldGrad)"/>
+          <circle cx="8" cy="20" r="4" fill="#f5d780"/>
+          <circle cx="35" cy="5" r="5" fill="#f5d780"/>
+          <circle cx="62" cy="20" r="4" fill="#f5d780"/>
+        </g>
+        <!-- Main text -->
+        <text x="105" y="78" font-family="'Playfair Display', serif" font-size="52" font-weight="900" fill="url(#goldGrad)" letter-spacing="4">JACKPOT</text>
+        <!-- HD -->
+        <text x="105" y="112" font-family="'Playfair Display', serif" font-size="24" font-weight="700" fill="#d4af37" letter-spacing="18" opacity="0.7">H   D</text>
+        <!-- Decorative lines -->
+        <line x1="105" y1="86" x2="200" y2="86" stroke="#d4af37" stroke-width="0.5" opacity="0.4"/>
+        <line x1="370" y1="86" x2="465" y2="86" stroke="#d4af37" stroke-width="0.5" opacity="0.4"/>
+        <!-- Diamond accent -->
+        <polygon points="285,90 290,86 295,90 290,94" fill="#d4af37" opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="card-footer">
+      <div class="palette">
+        <div class="palette-color" style="background:#f5d780" data-hex="#f5d780"></div>
+        <div class="palette-color" style="background:#d4af37" data-hex="#d4af37"></div>
+        <div class="palette-color" style="background:#a07818" data-hex="#a07818"></div>
+        <div class="palette-color" style="background:#0c0a08" data-hex="#0c0a08"></div>
+        <div class="palette-color" style="background:#1c1710" data-hex="#1c1710"></div>
+      </div>
+      <button class="download-btn" onclick="downloadSVG('logo-2', 'jackpothd-royal-gold')">Letöltés SVG</button>
+    </div>
+  </div>
+
+  <!-- ==================== #3 MODERN MINIMÁL ==================== -->
+  <div class="card card-3">
+    <span class="card-number">#3</span>
+    <span class="card-style-name">Modern Minimál</span>
+    <div class="logo-area">
+      <svg id="logo-3" viewBox="0 0 480 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="textClip">
+            <text x="24" y="88" font-family="'Inter', sans-serif" font-size="64" font-weight="900" letter-spacing="-2">JACKPOT</text>
+          </clipPath>
+        </defs>
+        <!-- Main text with color accent -->
+        <text x="24" y="88" font-family="'Inter', sans-serif" font-size="64" font-weight="900" fill="#1a1a1a" letter-spacing="-2">JACKPOT</text>
+        <!-- Color bar accent through text -->
+        <rect x="24" y="56" width="6" height="40" fill="#FF3366" rx="3"/>
+        <!-- HD - lightweight -->
+        <text x="422" y="88" font-family="'Inter', sans-serif" font-size="26" font-weight="300" fill="#999" letter-spacing="4">HD</text>
+        <!-- Subtle dot separator -->
+        <circle cx="412" cy="78" r="2.5" fill="#FF3366"/>
+        <!-- Bottom accent line -->
+        <rect x="24" y="100" width="60" height="2.5" fill="#FF3366" rx="1"/>
+      </svg>
+    </div>
+    <div class="card-footer">
+      <div class="palette">
+        <div class="palette-color" style="background:#1a1a1a" data-hex="#1a1a1a"></div>
+        <div class="palette-color" style="background:#FF3366" data-hex="#FF3366"></div>
+        <div class="palette-color" style="background:#999999" data-hex="#999999"></div>
+        <div class="palette-color" style="background:#f5f5f5" data-hex="#f5f5f5"></div>
+        <div class="palette-color" style="background:#ffffff;border-color:rgba(0,0,0,0.15)" data-hex="#ffffff"></div>
+      </div>
+      <button class="download-btn" onclick="downloadSVG('logo-3', 'jackpothd-modern-minimal')">Letöltés SVG</button>
+    </div>
+  </div>
+
+  <!-- ==================== #4 GAMING / ESPORT ==================== -->
+  <div class="card card-4">
+    <span class="card-number">#4</span>
+    <span class="card-style-name">Gaming / Esport</span>
+    <div class="logo-area">
+      <svg id="logo-4" viewBox="0 0 480 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gamingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#8b5cf6"/>
+            <stop offset="100%" stop-color="#f97316"/>
+          </linearGradient>
+          <linearGradient id="gamingGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#8b5cf6"/>
+            <stop offset="100%" stop-color="#f97316"/>
+          </linearGradient>
+          <clipPath id="hexClip">
+            <polygon points="35,0 65,0 80,30 65,60 35,60 20,30"/>
+          </clipPath>
+        </defs>
+        <!-- Angled background shape -->
+        <polygon points="0,20 460,0 480,120 20,140" fill="none" stroke="url(#gamingGrad)" stroke-width="1.5" opacity="0.15"/>
+        <!-- Dice icon -->
+        <g transform="translate(12, 35)">
+          <rect x="0" y="0" width="52" height="52" rx="8" fill="url(#gamingGrad)" transform="rotate(-12, 26, 26)"/>
+          <circle cx="16" cy="16" r="3.5" fill="#0e0b1a" transform="rotate(-12, 26, 26)"/>
+          <circle cx="36" cy="16" r="3.5" fill="#0e0b1a" transform="rotate(-12, 26, 26)"/>
+          <circle cx="26" cy="26" r="3.5" fill="#0e0b1a" transform="rotate(-12, 26, 26)"/>
+          <circle cx="16" cy="36" r="3.5" fill="#0e0b1a" transform="rotate(-12, 26, 26)"/>
+          <circle cx="36" cy="36" r="3.5" fill="#0e0b1a" transform="rotate(-12, 26, 26)"/>
+        </g>
+        <!-- Main text - angular style -->
+        <text x="78" y="82" font-family="'Rajdhani', sans-serif" font-size="62" font-weight="700" fill="url(#gamingGrad)" letter-spacing="2" transform="skewX(-3)">JACKPOT</text>
+        <!-- HD badge -->
+        <rect x="418" y="52" width="50" height="28" rx="3" fill="url(#gamingGrad)"/>
+        <text x="443" y="73" text-anchor="middle" font-family="'Rajdhani', sans-serif" font-size="18" font-weight="700" fill="#0e0b1a">HD</text>
+        <!-- Accent cuts -->
+        <line x1="78" y1="92" x2="160" y2="92" stroke="url(#gamingGrad2)" stroke-width="3"/>
+        <line x1="165" y1="92" x2="175" y2="92" stroke="url(#gamingGrad2)" stroke-width="3"/>
+      </svg>
+    </div>
+    <div class="card-footer">
+      <div class="palette">
+        <div class="palette-color" style="background:#8b5cf6" data-hex="#8b5cf6"></div>
+        <div class="palette-color" style="background:#f97316" data-hex="#f97316"></div>
+        <div class="palette-color" style="background:#a78bfa" data-hex="#a78bfa"></div>
+        <div class="palette-color" style="background:#0e0b1a" data-hex="#0e0b1a"></div>
+        <div class="palette-color" style="background:#1e1533" data-hex="#1e1533"></div>
+      </div>
+      <button class="download-btn" onclick="downloadSVG('logo-4', 'jackpothd-gaming-esport')">Letöltés SVG</button>
+    </div>
+  </div>
+
+  <!-- ==================== #5 RETRO VEGAS ==================== -->
+  <div class="card card-5">
+    <span class="card-number">#5</span>
+    <span class="card-style-name">Retro Vegas</span>
+    <div class="logo-area">
+      <svg id="logo-5" viewBox="0 0 480 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="retroGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ff6b4a"/>
+            <stop offset="100%" stop-color="#cc3322"/>
+          </linearGradient>
+        </defs>
+        <!-- Decorative stars -->
+        <polygon points="24,25 27,18 30,25 37,25 31,30 33,37 27,33 21,37 23,30 17,25" fill="#d4af37" opacity="0.7"/>
+        <polygon points="455,20 457,15 459,20 464,20 460,23 461,28 457,25 453,28 454,23 450,20" fill="#d4af37" opacity="0.5"/>
+        <!-- Ace card icon -->
+        <g transform="translate(16, 32)">
+          <rect x="0" y="0" width="48" height="68" rx="6" fill="none" stroke="#cc6644" stroke-width="1.5"/>
+          <text x="8" y="18" font-family="'Playfair Display', serif" font-size="14" fill="#cc3322">A</text>
+          <text x="24" y="55" text-anchor="middle" font-family="'Playfair Display', serif" font-size="28" fill="#cc3322">♠</text>
+          <text x="40" y="64" font-family="'Playfair Display', serif" font-size="14" fill="#cc3322" transform="rotate(180, 40, 57)">A</text>
+        </g>
+        <!-- Main text -->
+        <text x="80" y="82" font-family="'Alfa Slab One', serif" font-size="48" fill="url(#retroGrad)" letter-spacing="2">JACKPOT</text>
+        <!-- HD in vintage style -->
+        <text x="80" y="112" font-family="'Alfa Slab One', serif" font-size="18" fill="#d4af37" letter-spacing="22">H  D</text>
+        <!-- Vintage ornament lines -->
+        <line x1="80" y1="88" x2="150" y2="88" stroke="#d4af37" stroke-width="0.8" opacity="0.5"/>
+        <line x1="380" y1="88" x2="455" y2="88" stroke="#d4af37" stroke-width="0.8" opacity="0.5"/>
+        <circle cx="265" cy="88" r="2" fill="#d4af37" opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="card-footer">
+      <div class="palette">
+        <div class="palette-color" style="background:#ff6b4a" data-hex="#ff6b4a"></div>
+        <div class="palette-color" style="background:#cc3322" data-hex="#cc3322"></div>
+        <div class="palette-color" style="background:#d4af37" data-hex="#d4af37"></div>
+        <div class="palette-color" style="background:#1a0a0a" data-hex="#1a0a0a"></div>
+        <div class="palette-color" style="background:#f5e6d0" data-hex="#f5e6d0"></div>
+      </div>
+      <button class="download-btn" onclick="downloadSVG('logo-5', 'jackpothd-retro-vegas')">Letöltés SVG</button>
+    </div>
+  </div>
+
+  <!-- ==================== #6 DARK PREMIUM ==================== -->
+  <div class="card card-6">
+    <span class="card-number">#6</span>
+    <span class="card-style-name">Dark Premium</span>
+    <div class="logo-area">
+      <svg id="logo-6" viewBox="0 0 480 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="darkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00d296"/>
+            <stop offset="100%" stop-color="#00a3ff"/>
+          </linearGradient>
+          <filter id="subtleGlow">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <!-- Abstract J monogram / chip -->
+        <g transform="translate(16, 22)">
+          <circle cx="38" cy="38" r="36" fill="none" stroke="url(#darkGrad)" stroke-width="2" opacity="0.3"/>
+          <circle cx="38" cy="38" r="28" fill="none" stroke="url(#darkGrad)" stroke-width="1" opacity="0.15"/>
+          <text x="38" y="52" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="38" font-weight="700" fill="url(#darkGrad)">J</text>
+          <!-- Chip notches -->
+          <line x1="38" y1="2" x2="38" y2="10" stroke="#00d296" stroke-width="2" opacity="0.3"/>
+          <line x1="38" y1="66" x2="38" y2="74" stroke="#00d296" stroke-width="2" opacity="0.3"/>
+          <line x1="2" y1="38" x2="10" y2="38" stroke="#00d296" stroke-width="2" opacity="0.3"/>
+          <line x1="66" y1="38" x2="74" y2="38" stroke="#00d296" stroke-width="2" opacity="0.3"/>
+        </g>
+        <!-- Main text -->
+        <text x="108" y="72" font-family="'Space Grotesk', sans-serif" font-size="48" font-weight="700" fill="#e8e8e8" letter-spacing="3">JACKPOT</text>
+        <!-- HD with accent -->
+        <text x="108" y="106" font-family="'Space Grotesk', sans-serif" font-size="20" font-weight="400" fill="url(#darkGrad)" letter-spacing="10">HD</text>
+        <!-- Subtle accent line -->
+        <rect x="108" y="78" width="40" height="1.5" fill="url(#darkGrad)" rx="1" opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="card-footer">
+      <div class="palette">
+        <div class="palette-color" style="background:#00d296" data-hex="#00d296"></div>
+        <div class="palette-color" style="background:#00a3ff" data-hex="#00a3ff"></div>
+        <div class="palette-color" style="background:#e8e8e8" data-hex="#e8e8e8"></div>
+        <div class="palette-color" style="background:#060d12" data-hex="#060d12"></div>
+        <div class="palette-color" style="background:#0f1923" data-hex="#0f1923"></div>
+      </div>
+      <button class="download-btn" onclick="downloadSVG('logo-6', 'jackpothd-dark-premium')">Letöltés SVG</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast">SVG letöltve!</div>
+
+<script>
+function downloadSVG(id, filename) {
+  const svg = document.getElementById(id);
+  const clone = svg.cloneNode(true);
+
+  // Remove filter references that might not render standalone
+  clone.removeAttribute('id');
+
+  // Collect all referenced defs from the parent SVG
+  const defs = svg.querySelector('defs');
+  if (defs) {
+    const clonedDefs = defs.cloneNode(true);
+    clone.insertBefore(clonedDefs, clone.firstChild);
+  }
+
+  // Add xmlns
+  clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+
+  // Serialize
+  const serializer = new XMLSerializer();
+  let svgString = serializer.serializeToString(clone);
+
+  // Add XML declaration
+  svgString = '<?xml version="1.0" encoding="UTF-8"?>\n' + svgString;
+
+  // Download
+  const blob = new Blob([svgString], { type: 'image/svg+xml' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename + '.svg';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  // Toast
+  showToast('SVG letöltve: ' + filename + '.svg');
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// Copy hex on palette click
+document.querySelectorAll('.palette-color').forEach(el => {
+  el.addEventListener('click', () => {
+    const hex = el.getAttribute('data-hex');
+    navigator.clipboard.writeText(hex).then(() => {
+      showToast('Szín másolva: ' + hex);
+    });
+  });
+});
+</script>
+
+</body>
+</html>

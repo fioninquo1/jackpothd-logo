@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JackpotHD - Logo Variációk</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;700;900&family=Rajdhani:wght@600;700&family=Alfa+Slab+One&family=Space+Grotesk:wght@400;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0f;color:#fff;font-family:'Inter',sans-serif;min-height:100vh;padding:40px 20px}
+h1{text-align:center;font-size:2rem;font-weight:300;letter-spacing:.1em;margin-bottom:8px;color:#888}
+.subtitle{text-align:center;color:#555;font-size:.9rem;margin-bottom:50px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:30px;max-width:1100px;margin:0 auto}
+.card{border-radius:16px;overflow:hidden;position:relative;transition:transform .3s}
+.card:hover{transform:translateY(-4px)}
+.card-header{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:14px 18px;z-index:2}
+.card-number{font-size:.75rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;opacity:.6}
+.card-style-name{font-size:.7rem;font-weight:400;letter-spacing:.1em;text-transform:uppercase;opacity:.5}
+.logo-area{display:flex;align-items:center;justify-content:center;padding:50px 40px;cursor:pointer}
+.logo-area svg{width:220px;height:220px;border-radius:24px}
+.card-footer{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.06)}
+.palette{display:flex;gap:6px}
+.palette-color{width:22px;height:22px;border-radius:6px;border:1px solid rgba(255,255,255,.1);cursor:pointer;position:relative;transition:transform .2s}
+.palette-color:hover{transform:scale(1.2)}
+.palette-color::after{content:attr(data-hex);position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:.55rem;color:#666;white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}
+.palette-color:hover::after{opacity:1}
+.download-btn,.back-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#aaa;padding:8px 14px;border-radius:8px;font-size:.75rem;cursor:pointer;transition:all .2s;font-family:inherit;letter-spacing:.05em}
+.download-btn:hover,.back-btn:hover{background:rgba(255,255,255,.15);color:#fff}
+.back-btn{margin-bottom:30px;font-size:.85rem;padding:10px 20px}
+.card-1{background:#0d0d18;border:1px solid rgba(255,0,200,.15)}.card-1 .card-number,.card-1 .card-style-name{color:#ff66cc}
+.card-2{background:#0c0a08;border:1px solid rgba(212,175,55,.2)}.card-2 .card-number,.card-2 .card-style-name{color:#d4af37}
+.card-3{background:#0a0a1a;border:1px solid rgba(0,150,255,.15)}.card-3 .card-number,.card-3 .card-style-name{color:#0096ff}
+.card-4{background:#0e0b1a;border:1px solid rgba(139,92,246,.2)}.card-4 .card-number,.card-4 .card-style-name{color:#a78bfa}
+.card-5{background:#1a0a0a;border:1px solid rgba(200,50,50,.15)}.card-5 .card-number,.card-5 .card-style-name{color:#cc6644}
+.card-6{background:#060d12;border:1px solid rgba(0,210,150,.12)}.card-6 .card-number,.card-6 .card-style-name{color:#00d296}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(255,255,255,.12);backdrop-filter:blur(20px);color:#fff;padding:12px 24px;border-radius:10px;font-size:.85rem;transition:transform .4s;z-index:100;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+#detail-view{display:none}
+.detail-header{max-width:1100px;margin:0 auto 30px}
+.detail-title{font-size:1.4rem;font-weight:300;letter-spacing:.08em;color:#888;margin-top:10px}
+</style>
+</head>
+<body>
+<div id="main-view">
+<h1>JACKPOTHD</h1>
+<p class="subtitle">Logó / PFP variációk &mdash; kattints egy stílusra a variációk megtekintéséhez</p>
+<div class="grid" id="main-grid"></div>
+</div>
+<div id="detail-view">
+<div class="detail-header">
+<button class="back-btn" onclick="showMain()">&#8592; Vissza a stílusokhoz</button>
+<div class="detail-title" id="detail-title"></div>
+</div>
+<div class="grid" id="detail-grid"></div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const STYLES = [
+{
+  name:'Neon Casino', cls:'card-1',
+  palette:['#ff00cc','#cc00ff','#7b2fff','#0d0d18','#1a0a2e'],
+  defs: p=>`<filter id="${p}g"><feGaussianBlur stdDeviation="4" result="b1"/><feGaussianBlur stdDeviation="10" result="b2"/><feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="${p}gs"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><linearGradient id="${p}gr" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff00cc"/><stop offset="50%" stop-color="#cc00ff"/><stop offset="100%" stop-color="#7b2fff"/></linearGradient><radialGradient id="${p}bg" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="#1a0a2e"/><stop offset="100%" stop-color="#0d0d18"/></radialGradient>`,
+  variants:[
+    (p)=>`<circle cx="200" cy="175" r="100" fill="none" stroke="url(#${p}gr)" stroke-width="2" opacity=".15" filter="url(#${p}g)"/>
+<text x="200" y="220" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="150" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">7</text>
+<text x="200" y="310" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="42" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}gs)" letter-spacing="5">JACKPOT</text>
+<rect x="157" y="325" width="86" height="32" rx="6" fill="none" stroke="#ff00cc" stroke-width="1.5" filter="url(#${p}gs)"/>
+<text x="200" y="348" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="18" font-weight="700" fill="#ff00cc" filter="url(#${p}gs)">HD</text>`,
+
+    (p)=>`<circle cx="200" cy="180" r="120" fill="none" stroke="url(#${p}gr)" stroke-width="2.5" opacity=".12" filter="url(#${p}g)"/>
+<circle cx="200" cy="180" r="95" fill="none" stroke="url(#${p}gr)" stroke-width="1" opacity=".08"/>
+<text x="200" y="230" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="200" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">7</text>
+<text x="200" y="365" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="22" font-weight="700" fill="#ff00cc" filter="url(#${p}gs)" letter-spacing="3">JACKPOT HD</text>`,
+
+    (p)=>`<text x="200" y="180" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="62" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)" letter-spacing="3">JACK</text>
+<text x="200" y="250" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="62" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)" letter-spacing="3">POT</text>
+<line x1="100" y1="270" x2="300" y2="270" stroke="url(#${p}gr)" stroke-width="1" opacity=".3" filter="url(#${p}gs)"/>
+<text x="200" y="310" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="32" font-weight="700" fill="#ff00cc" filter="url(#${p}gs)" letter-spacing="12">HD</text>`,
+
+    (p)=>`<circle cx="200" cy="195" r="110" fill="none" stroke="url(#${p}gr)" stroke-width="2" opacity=".2" filter="url(#${p}g)"/>
+<circle cx="200" cy="195" r="85" fill="none" stroke="url(#${p}gr)" stroke-width="1.5" opacity=".1"/>
+<text x="200" y="235" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="140" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">J</text>
+<text x="200" y="365" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="16" font-weight="400" fill="#cc00ff" opacity=".5" letter-spacing="6">JACKPOT HD</text>`,
+
+    (p)=>`<text x="133" y="165" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="80" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">7</text>
+<text x="200" y="165" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="80" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">7</text>
+<text x="267" y="165" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="80" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">7</text>
+<line x1="80" y1="200" x2="320" y2="200" stroke="url(#${p}gr)" stroke-width="1" opacity=".25"/>
+<text x="200" y="270" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="42" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}gs)" letter-spacing="4">JACKPOT</text>
+<text x="200" y="320" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="24" font-weight="700" fill="#ff00cc" filter="url(#${p}gs)" letter-spacing="8">HD</text>`,
+
+    (p)=>`<rect x="60" y="50" width="280" height="200" rx="20" fill="none" stroke="url(#${p}gr)" stroke-width="2" opacity=".2"/>
+<rect x="70" y="60" width="260" height="180" rx="15" fill="none" stroke="url(#${p}gr)" stroke-width=".5" opacity=".1"/>
+<text x="200" y="180" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="100" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">7</text>
+<text x="200" y="310" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="48" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}gs)" letter-spacing="2">JACKPOT</text>
+<rect x="160" y="325" width="80" height="28" rx="5" fill="url(#${p}gr)" opacity=".15"/>
+<text x="200" y="346" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="18" font-weight="700" fill="#ff00cc" filter="url(#${p}gs)">HD</text>`
+  ]
+},
+{
+  name:'Luxus / Royal Gold', cls:'card-2',
+  palette:['#f5d780','#d4af37','#a07818','#0c0a08','#1c1710'],
+  defs: p=>`<linearGradient id="${p}gr" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f5d780"/><stop offset="45%" stop-color="#d4af37"/><stop offset="100%" stop-color="#a07818"/></linearGradient><linearGradient id="${p}grh" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#a07818"/><stop offset="50%" stop-color="#f5d780"/><stop offset="100%" stop-color="#a07818"/></linearGradient><radialGradient id="${p}bg" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="#1c1710"/><stop offset="100%" stop-color="#0c0a08"/></radialGradient>`,
+  crown: p=>`<g transform="translate(123,50) scale(1.4)"><polygon points="0,65 10,22 25,45 55,2 85,45 100,22 110,65" fill="url(#${p}gr)" opacity=".9"/><rect x="0" y="65" width="110" height="14" rx="3" fill="url(#${p}gr)"/><circle cx="10" cy="22" r="5" fill="#f5d780"/><circle cx="55" cy="2" r="6" fill="#f5d780"/><circle cx="100" cy="22" r="5" fill="#f5d780"/></g>`,
+  variants:[
+    (p)=>`<g transform="translate(123,50) scale(1.4)"><polygon points="0,65 10,22 25,45 55,2 85,45 100,22 110,65" fill="url(#${p}gr)" opacity=".9"/><rect x="0" y="65" width="110" height="14" rx="3" fill="url(#${p}gr)"/><circle cx="10" cy="22" r="5" fill="#f5d780"/><circle cx="55" cy="2" r="6" fill="#f5d780"/><circle cx="100" cy="22" r="5" fill="#f5d780"/></g>
+<line x1="80" y1="180" x2="320" y2="180" stroke="url(#${p}grh)" stroke-width=".8" opacity=".4"/>
+<text x="200" y="240" text-anchor="middle" font-family="'Playfair Display',serif" font-size="48" font-weight="900" fill="url(#${p}gr)" letter-spacing="6">JACKPOT</text>
+<line x1="80" y1="258" x2="155" y2="258" stroke="#d4af37" stroke-width=".6" opacity=".4"/><polygon points="200,252 205,258 200,264 195,258" fill="#d4af37" opacity=".5"/><line x1="245" y1="258" x2="320" y2="258" stroke="#d4af37" stroke-width=".6" opacity=".4"/>
+<text x="188" y="310" font-family="'Playfair Display',serif" font-size="34" font-weight="700" fill="#d4af37" opacity=".7">H</text><text x="206" y="310" font-family="'Playfair Display',serif" font-size="34" font-weight="700" fill="#d4af37" opacity=".7">D</text>
+<line x1="140" y1="340" x2="260" y2="340" stroke="#d4af37" stroke-width=".5" opacity=".25"/>`,
+
+    (p)=>`<g transform="translate(105,30) scale(1.8)"><polygon points="0,65 10,22 25,45 55,2 85,45 100,22 110,65" fill="url(#${p}gr)" opacity=".9"/><rect x="0" y="65" width="110" height="14" rx="3" fill="url(#${p}gr)"/><circle cx="10" cy="22" r="5" fill="#f5d780"/><circle cx="55" cy="2" r="6" fill="#f5d780"/><circle cx="100" cy="22" r="5" fill="#f5d780"/></g>
+<text x="200" y="250" text-anchor="middle" font-family="'Playfair Display',serif" font-size="80" font-weight="900" fill="url(#${p}gr)">J</text>
+<line x1="100" y1="275" x2="300" y2="275" stroke="url(#${p}grh)" stroke-width=".6" opacity=".3"/>
+<text x="200" y="330" text-anchor="middle" font-family="'Playfair Display',serif" font-size="20" font-weight="700" fill="#d4af37" opacity=".5" letter-spacing="8">JACKPOT HD</text>`,
+
+    (p)=>`<text x="200" y="155" text-anchor="middle" font-family="'Playfair Display',serif" font-size="58" font-weight="900" fill="url(#${p}gr)" letter-spacing="6">JACKPOT</text>
+<line x1="60" y1="175" x2="150" y2="175" stroke="url(#${p}grh)" stroke-width=".8" opacity=".4"/>
+<polygon points="200,169 205,175 200,181 195,175" fill="#d4af37" opacity=".5"/>
+<line x1="250" y1="175" x2="340" y2="175" stroke="url(#${p}grh)" stroke-width=".8" opacity=".4"/>
+<text x="188" y="240" font-family="'Playfair Display',serif" font-size="60" font-weight="700" fill="#d4af37" opacity=".7">H</text><text x="212" y="240" font-family="'Playfair Display',serif" font-size="60" font-weight="700" fill="#d4af37" opacity=".7">D</text>
+<line x1="100" y1="260" x2="300" y2="260" stroke="#d4af37" stroke-width=".5" opacity=".2"/>
+<polygon points="190,330 200,310 210,330" fill="none" stroke="#d4af37" stroke-width="1" opacity=".3"/>`,
+
+    (p)=>`<circle cx="200" cy="180" r="110" fill="none" stroke="url(#${p}gr)" stroke-width="2" opacity=".2"/>
+<circle cx="200" cy="180" r="95" fill="none" stroke="#d4af37" stroke-width=".5" opacity=".1"/>
+<g transform="translate(155,85) scale(.8)"><polygon points="0,65 10,22 25,45 55,2 85,45 100,22 110,65" fill="url(#${p}gr)" opacity=".7"/><circle cx="55" cy="2" r="5" fill="#f5d780"/></g>
+<text x="200" y="215" text-anchor="middle" font-family="'Playfair Display',serif" font-size="70" font-weight="900" fill="url(#${p}gr)">JHD</text>
+<line x1="120" y1="235" x2="280" y2="235" stroke="url(#${p}grh)" stroke-width=".6" opacity=".3"/>
+<text x="200" y="275" text-anchor="middle" font-family="'Playfair Display',serif" font-size="18" font-weight="700" fill="#d4af37" opacity=".4" letter-spacing="10">JACKPOT</text>`,
+
+    (p)=>`<rect x="80" y="40" width="240" height="320" rx="20" fill="none" stroke="url(#${p}gr)" stroke-width="1.5" opacity=".2"/>
+<rect x="90" y="50" width="220" height="300" rx="15" fill="none" stroke="#d4af37" stroke-width=".5" opacity=".1"/>
+<g transform="translate(145,60) scale(1)"><polygon points="0,65 10,22 25,45 55,2 85,45 100,22 110,65" fill="url(#${p}gr)" opacity=".8"/><rect x="0" y="65" width="110" height="10" rx="2" fill="url(#${p}gr)"/><circle cx="55" cy="2" r="5" fill="#f5d780"/></g>
+<text x="200" y="220" text-anchor="middle" font-family="'Playfair Display',serif" font-size="38" font-weight="900" fill="url(#${p}gr)" letter-spacing="4">JACKPOT</text>
+<polygon points="200,232 204,238 200,244 196,238" fill="#d4af37" opacity=".4"/>
+<text x="188" y="290" font-family="'Playfair Display',serif" font-size="40" font-weight="700" fill="#d4af37" opacity=".6">H</text><text x="208" y="290" font-family="'Playfair Display',serif" font-size="40" font-weight="700" fill="#d4af37" opacity=".6">D</text>`,
+
+    (p)=>`<polygon points="200,40 350,115 350,285 200,360 50,285 50,115" fill="none" stroke="url(#${p}gr)" stroke-width="1.5" opacity=".2"/>
+<g transform="translate(145,55) scale(.85)"><polygon points="0,65 10,22 25,45 55,2 85,45 100,22 110,65" fill="url(#${p}gr)" opacity=".8"/><rect x="0" y="65" width="110" height="10" rx="2" fill="url(#${p}gr)"/><circle cx="55" cy="2" r="5" fill="#f5d780"/></g>
+<line x1="100" y1="170" x2="300" y2="170" stroke="url(#${p}grh)" stroke-width=".6" opacity=".3"/>
+<text x="200" y="225" text-anchor="middle" font-family="'Playfair Display',serif" font-size="44" font-weight="900" fill="url(#${p}gr)" letter-spacing="5">JACKPOT</text>
+<text x="188" y="280" font-family="'Playfair Display',serif" font-size="38" font-weight="700" fill="#d4af37" opacity=".6">H</text><text x="208" y="280" font-family="'Playfair Display',serif" font-size="38" font-weight="700" fill="#d4af37" opacity=".6">D</text>
+<polygon points="200,310 205,318 195,318" fill="#d4af37" opacity=".3"/>`
+  ]
+},
+{
+  name:'Cyber Slot', cls:'card-3',
+  palette:['#0096ff','#00d4ff','#0a1628','#050a14','#e0f0ff'],
+  defs: p=>`<linearGradient id="${p}gr" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0096ff"/><stop offset="100%" stop-color="#00d4ff"/></linearGradient><filter id="${p}g"><feGaussianBlur stdDeviation="5" result="b1"/><feGaussianBlur stdDeviation="12" result="b2"/><feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="${p}gs"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><radialGradient id="${p}bg" cx="50%" cy="45%" r="55%"><stop offset="0%" stop-color="#0a1628"/><stop offset="100%" stop-color="#050a14"/></radialGradient>`,
+  variants:[
+    (p)=>`<rect x="100" y="55" width="200" height="160" rx="16" fill="none" stroke="url(#${p}gr)" stroke-width="2" opacity=".3"/>
+<line x1="167" y1="65" x2="167" y2="205" stroke="#0096ff" stroke-width="1" opacity=".15"/>
+<line x1="233" y1="65" x2="233" y2="205" stroke="#0096ff" stroke-width="1" opacity=".15"/>
+<text x="133" y="155" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="60" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">7</text>
+<text x="200" y="155" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="60" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">7</text>
+<text x="267" y="155" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="60" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">7</text>
+<line x1="90" y1="135" x2="310" y2="135" stroke="#0096ff" stroke-width="1.5" opacity=".2" stroke-dasharray="4,4"/>
+<line x1="310" y1="90" x2="310" y2="160" stroke="url(#${p}gr)" stroke-width="3" opacity=".3" stroke-linecap="round"/>
+<circle cx="310" cy="85" r="8" fill="url(#${p}gr)" opacity=".4"/>
+<text x="200" y="280" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="42" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}gs)" letter-spacing="4">JACKPOT</text>
+<rect x="165" y="298" width="70" height="28" rx="5" fill="none" stroke="#0096ff" stroke-width="1.2" opacity=".4" filter="url(#${p}gs)"/>
+<text x="200" y="319" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="16" font-weight="700" fill="#00d4ff" filter="url(#${p}gs)">HD</text>`,
+
+    (p)=>`<rect x="80" y="40" width="240" height="200" rx="20" fill="none" stroke="url(#${p}gr)" stroke-width="2.5" opacity=".25"/>
+<line x1="160" y1="50" x2="160" y2="230" stroke="#0096ff" stroke-width="1" opacity=".12"/>
+<line x1="240" y1="50" x2="240" y2="230" stroke="#0096ff" stroke-width="1" opacity=".12"/>
+<text x="120" y="165" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="75" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">7</text>
+<text x="200" y="165" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="75" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">7</text>
+<text x="280" y="165" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="75" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">7</text>
+<line x1="70" y1="140" x2="330" y2="140" stroke="#0096ff" stroke-width="2" opacity=".15" stroke-dasharray="6,4"/>
+<text x="200" y="315" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="24" font-weight="700" fill="url(#${p}gr)" filter="url(#${p}gs)" letter-spacing="3">JACKPOT HD</text>`,
+
+    (p)=>`<text x="200" y="170" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="60" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)" letter-spacing="2">JACK</text>
+<text x="200" y="240" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="60" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)" letter-spacing="2">POT</text>
+<line x1="100" y1="260" x2="300" y2="260" stroke="url(#${p}gr)" stroke-width="1" opacity=".2"/>
+<text x="200" y="310" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="36" font-weight="700" fill="#00d4ff" filter="url(#${p}gs)" letter-spacing="10">HD</text>
+<line x1="130" y1="340" x2="270" y2="340" stroke="#0096ff" stroke-width=".5" opacity=".15"/>`,
+
+    (p)=>`<circle cx="200" cy="185" r="105" fill="none" stroke="url(#${p}gr)" stroke-width="2" opacity=".2" filter="url(#${p}gs)"/>
+<circle cx="200" cy="185" r="85" fill="none" stroke="#0096ff" stroke-width="1" opacity=".1"/>
+<text x="200" y="225" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="120" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">J</text>
+<line x1="120" y1="320" x2="280" y2="320" stroke="#0096ff" stroke-width=".5" opacity=".15"/>
+<text x="200" y="365" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="16" font-weight="400" fill="#0096ff" opacity=".4" letter-spacing="6">JACKPOT HD</text>`,
+
+    (p)=>`<text x="200" y="210" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="180" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">7</text>
+<rect x="100" y="290" width="200" height="45" rx="8" fill="none" stroke="url(#${p}gr)" stroke-width="1.5" opacity=".25"/>
+<text x="200" y="320" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="22" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}gs)" letter-spacing="3">JACKPOT HD</text>`,
+
+    (p)=>`<rect x="70" y="50" width="260" height="170" rx="18" fill="none" stroke="url(#${p}gr)" stroke-width="2" opacity=".2"/>
+<text x="130" y="160" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="55" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">7</text>
+<text x="200" y="160" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="55" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">7</text>
+<text x="270" y="160" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="55" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}g)">7</text>
+<text x="200" y="285" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="52" font-weight="900" fill="url(#${p}gr)" filter="url(#${p}gs)" letter-spacing="2">JACKPOT</text>
+<line x1="120" y1="300" x2="280" y2="300" stroke="url(#${p}gr)" stroke-width="1" opacity=".2"/>
+<text x="200" y="345" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="28" font-weight="700" fill="#00d4ff" filter="url(#${p}gs)" letter-spacing="6">HD</text>`
+  ]
+},
+{
+  name:'Gaming / Esport', cls:'card-4',
+  palette:['#8b5cf6','#f97316','#a78bfa','#0e0b1a','#1e1533'],
+  defs: p=>`<linearGradient id="${p}gr" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#f97316"/></linearGradient><linearGradient id="${p}grv" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#f97316"/></linearGradient>`,
+  bg:'#0e0b1a',
+  variants:[
+    (p)=>`<path d="M200,50 L320,90 L312,240 L200,320 L88,240 L80,90 Z" fill="none" stroke="url(#${p}gr)" stroke-width="2.5" opacity=".25"/>
+<line x1="0" y1="100" x2="100" y2="50" stroke="#8b5cf6" stroke-width="1.5" opacity=".1"/>
+<line x1="300" y1="350" x2="400" y2="300" stroke="#f97316" stroke-width="1.5" opacity=".1"/>
+<g transform="translate(155,70)"><rect x="0" y="0" width="90" height="90" rx="14" fill="url(#${p}gr)" transform="rotate(-8,45,45)"/><circle cx="25" cy="25" r="6" fill="#0e0b1a" transform="rotate(-8,45,45)"/><circle cx="65" cy="25" r="6" fill="#0e0b1a" transform="rotate(-8,45,45)"/><circle cx="45" cy="45" r="6" fill="#0e0b1a" transform="rotate(-8,45,45)"/><circle cx="25" cy="65" r="6" fill="#0e0b1a" transform="rotate(-8,45,45)"/><circle cx="65" cy="65" r="6" fill="#0e0b1a" transform="rotate(-8,45,45)"/></g>
+<text x="200" y="230" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="52" font-weight="700" fill="url(#${p}gr)" letter-spacing="4">JACKPOT</text>
+<rect x="158" y="250" width="84" height="36" rx="5" fill="url(#${p}gr)"/><text x="200" y="275" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="22" font-weight="700" fill="#0e0b1a">HD</text>
+<rect x="100" y="300" width="60" height="4" rx="2" fill="url(#${p}gr)" opacity=".5"/><rect x="170" y="300" width="15" height="4" rx="2" fill="url(#${p}gr)" opacity=".3"/>`,
+
+    (p)=>`<g transform="translate(120,40)"><rect x="0" y="0" width="160" height="160" rx="24" fill="url(#${p}gr)" transform="rotate(-8,80,80)"/><circle cx="45" cy="45" r="12" fill="#0e0b1a" transform="rotate(-8,80,80)"/><circle cx="115" cy="45" r="12" fill="#0e0b1a" transform="rotate(-8,80,80)"/><circle cx="80" cy="80" r="12" fill="#0e0b1a" transform="rotate(-8,80,80)"/><circle cx="45" cy="115" r="12" fill="#0e0b1a" transform="rotate(-8,80,80)"/><circle cx="115" cy="115" r="12" fill="#0e0b1a" transform="rotate(-8,80,80)"/></g>
+<text x="200" y="300" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="28" font-weight="700" fill="url(#${p}gr)" letter-spacing="4">JACKPOT HD</text>
+<rect x="130" y="310" width="140" height="3" rx="1" fill="url(#${p}gr)" opacity=".3"/>`,
+
+    (p)=>`<line x1="0" y1="80" x2="120" y2="30" stroke="#8b5cf6" stroke-width="2" opacity=".12"/>
+<line x1="280" y1="370" x2="400" y2="320" stroke="#f97316" stroke-width="2" opacity=".12"/>
+<text x="200" y="160" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="72" font-weight="700" fill="url(#${p}gr)" letter-spacing="3">JACK</text>
+<text x="200" y="240" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="72" font-weight="700" fill="url(#${p}gr)" letter-spacing="3">POT</text>
+<rect x="140" y="260" width="120" height="40" rx="6" fill="url(#${p}gr)"/><text x="200" y="288" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="26" font-weight="700" fill="#0e0b1a">HD</text>`,
+
+    (p)=>`<path d="M200,50 L320,90 L312,240 L200,320 L88,240 L80,90 Z" fill="none" stroke="url(#${p}gr)" stroke-width="3" opacity=".2"/>
+<text x="200" y="230" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="160" font-weight="700" fill="url(#${p}gr)">J</text>
+<text x="200" y="365" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="18" font-weight="600" fill="url(#${p}gr)" opacity=".5" letter-spacing="6">JACKPOT HD</text>`,
+
+    (p)=>`<g transform="translate(155,50)"><rect x="0" y="0" width="90" height="90" rx="14" fill="url(#${p}gr)" transform="rotate(-8,45,45)"/><circle cx="25" cy="25" r="6" fill="#0e0b1a" transform="rotate(-8,45,45)"/><circle cx="65" cy="25" r="6" fill="#0e0b1a" transform="rotate(-8,45,45)"/><circle cx="45" cy="45" r="6" fill="#0e0b1a" transform="rotate(-8,45,45)"/><circle cx="25" cy="65" r="6" fill="#0e0b1a" transform="rotate(-8,45,45)"/><circle cx="65" cy="65" r="6" fill="#0e0b1a" transform="rotate(-8,45,45)"/></g>
+<text x="200" y="215" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="58" font-weight="700" fill="url(#${p}gr)" letter-spacing="2">JACKPOT</text>
+<line x1="80" y1="230" x2="320" y2="230" stroke="url(#${p}gr)" stroke-width="1" opacity=".2"/>
+<text x="200" y="290" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="52" font-weight="700" fill="url(#${p}gr)" letter-spacing="8">HD</text>
+<rect x="120" y="320" width="55" height="4" rx="2" fill="url(#${p}gr)" opacity=".4"/><rect x="185" y="320" width="15" height="4" rx="2" fill="url(#${p}gr)" opacity=".25"/><rect x="210" y="320" width="70" height="4" rx="2" fill="url(#${p}gr)" opacity=".35"/>`,
+
+    (p)=>`<polygon points="200,40 360,120 330,310 200,370 70,310 40,120" fill="none" stroke="url(#${p}gr)" stroke-width="2" opacity=".15"/>
+<g transform="translate(160,60)"><rect x="0" y="0" width="80" height="80" rx="12" fill="url(#${p}gr)" transform="rotate(-5,40,40)"/><circle cx="22" cy="22" r="5" fill="#0e0b1a" transform="rotate(-5,40,40)"/><circle cx="58" cy="22" r="5" fill="#0e0b1a" transform="rotate(-5,40,40)"/><circle cx="40" cy="40" r="5" fill="#0e0b1a" transform="rotate(-5,40,40)"/><circle cx="22" cy="58" r="5" fill="#0e0b1a" transform="rotate(-5,40,40)"/><circle cx="58" cy="58" r="5" fill="#0e0b1a" transform="rotate(-5,40,40)"/></g>
+<text x="200" y="220" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="46" font-weight="700" fill="url(#${p}gr)" letter-spacing="4">JACKPOT</text>
+<rect x="165" y="235" width="70" height="30" rx="4" fill="url(#${p}gr)"/><text x="200" y="257" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="19" font-weight="700" fill="#0e0b1a">HD</text>
+<line x1="140" y1="290" x2="260" y2="290" stroke="url(#${p}gr)" stroke-width="1" opacity=".15"/>`
+  ]
+},
+{
+  name:'Retro Vegas', cls:'card-5',
+  palette:['#ff6b4a','#cc3322','#d4af37','#1a0a0a','#f5e6d0'],
+  defs: p=>`<linearGradient id="${p}gr" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ff6b4a"/><stop offset="100%" stop-color="#cc3322"/></linearGradient><radialGradient id="${p}bg" cx="50%" cy="40%" r="65%"><stop offset="0%" stop-color="#2a1010"/><stop offset="100%" stop-color="#1a0a0a"/></radialGradient>`,
+  stars:`<g opacity=".5"><polygon points="60,50 63,42 66,50 74,50 68,55 70,63 63,58 56,63 58,55 52,50" fill="#d4af37"/><polygon points="340,60 342,54 344,60 350,60 345,63 347,69 342,66 337,69 339,63 334,60" fill="#d4af37" opacity=".6"/><polygon points="55,340 57,335 59,340 64,340 60,343 61,348 57,345 53,348 54,343 50,340" fill="#d4af37" opacity=".4"/><polygon points="345,330 347,326 349,330 353,330 350,333 351,337 347,335 343,337 344,333 341,330" fill="#d4af37" opacity=".3"/></g>`,
+  variants:[
+    (p)=>`<g opacity=".5"><polygon points="60,50 63,42 66,50 74,50 68,55 70,63 63,58 56,63 58,55 52,50" fill="#d4af37"/><polygon points="340,60 342,54 344,60 350,60 345,63 347,69 342,66 337,69 339,63 334,60" fill="#d4af37" opacity=".6"/><polygon points="55,340 57,335 59,340 64,340 60,343 61,348 57,345 53,348 54,343 50,340" fill="#d4af37" opacity=".4"/><polygon points="345,330 347,326 349,330 353,330 350,333 351,337 347,335 343,337 344,333 341,330" fill="#d4af37" opacity=".3"/></g>
+<g transform="translate(130,40)"><rect x="0" y="0" width="140" height="180" rx="12" fill="none" stroke="#cc6644" stroke-width="2" opacity=".4"/><rect x="8" y="8" width="124" height="164" rx="8" fill="none" stroke="#cc6644" stroke-width=".5" opacity=".2"/><text x="20" y="35" font-family="'Playfair Display',serif" font-size="24" fill="#cc3322">A</text><text x="70" y="130" text-anchor="middle" font-family="'Playfair Display',serif" font-size="70" fill="url(#${p}gr)">&#9824;</text><text x="120" y="170" font-family="'Playfair Display',serif" font-size="24" fill="#cc3322" transform="rotate(180,120,158)">A</text></g>
+<text x="200" y="290" text-anchor="middle" font-family="'Alfa Slab One',serif" font-size="42" fill="url(#${p}gr)" letter-spacing="3">JACKPOT</text>
+<line x1="70" y1="305" x2="145" y2="305" stroke="#d4af37" stroke-width=".8" opacity=".5"/><circle cx="200" cy="305" r="2.5" fill="#d4af37" opacity=".6"/><line x1="255" y1="305" x2="330" y2="305" stroke="#d4af37" stroke-width=".8" opacity=".5"/>
+<text x="182" y="350" font-family="'Alfa Slab One',serif" font-size="24" fill="#d4af37" opacity=".6">H</text><text x="206" y="350" font-family="'Alfa Slab One',serif" font-size="24" fill="#d4af37" opacity=".6">D</text>`,
+
+    (p)=>`<g transform="translate(100,25)"><rect x="0" y="0" width="200" height="260" rx="16" fill="none" stroke="#cc6644" stroke-width="2.5" opacity=".35"/><rect x="10" y="10" width="180" height="240" rx="12" fill="none" stroke="#cc6644" stroke-width=".5" opacity=".15"/><text x="25" y="45" font-family="'Playfair Display',serif" font-size="32" fill="#cc3322">J</text><text x="100" y="185" text-anchor="middle" font-family="'Playfair Display',serif" font-size="100" fill="url(#${p}gr)">&#9824;</text><text x="175" y="245" font-family="'Playfair Display',serif" font-size="32" fill="#cc3322" transform="rotate(180,175,230)">J</text></g>
+<text x="200" y="345" text-anchor="middle" font-family="'Alfa Slab One',serif" font-size="22" fill="#d4af37" opacity=".5" letter-spacing="4">JACKPOT HD</text>`,
+
+    (p)=>`<g opacity=".4"><polygon points="60,60 63,52 66,60 74,60 68,65 70,73 63,68 56,73 58,65 52,60" fill="#d4af37"/><polygon points="340,60 342,54 344,60 350,60 345,63 347,69 342,66 337,69 339,63 334,60" fill="#d4af37"/><polygon points="55,340 57,335 59,340 64,340 60,343 61,348 57,345 53,348 54,343 50,340" fill="#d4af37"/><polygon points="340,340 342,335 344,340 349,340 345,343 346,348 342,345 338,348 339,343 335,340" fill="#d4af37"/></g>
+<text x="200" y="160" text-anchor="middle" font-family="'Alfa Slab One',serif" font-size="54" fill="url(#${p}gr)" letter-spacing="2">JACK</text>
+<text x="200" y="230" text-anchor="middle" font-family="'Alfa Slab One',serif" font-size="54" fill="url(#${p}gr)" letter-spacing="2">POT</text>
+<line x1="80" y1="250" x2="150" y2="250" stroke="#d4af37" stroke-width=".8" opacity=".5"/><circle cx="200" cy="250" r="2.5" fill="#d4af37" opacity=".6"/><line x1="250" y1="250" x2="320" y2="250" stroke="#d4af37" stroke-width=".8" opacity=".5"/>
+<text x="183" y="310" font-family="'Alfa Slab One',serif" font-size="40" fill="#d4af37" opacity=".6">H</text><text x="210" y="310" font-family="'Alfa Slab One',serif" font-size="40" fill="#d4af37" opacity=".6">D</text>`,
+
+    (p)=>`<circle cx="200" cy="185" r="110" fill="none" stroke="#d4af37" stroke-width="1.5" opacity=".2"/>
+<circle cx="200" cy="185" r="95" fill="none" stroke="#cc6644" stroke-width=".8" opacity=".12"/>
+<g opacity=".4"><polygon points="200,60 203,52 206,60 214,60 208,65 210,73 203,68 196,73 198,65 192,60" fill="#d4af37"/></g>
+<text x="200" y="220" text-anchor="middle" font-family="'Alfa Slab One',serif" font-size="90" fill="url(#${p}gr)">J</text>
+<line x1="130" y1="310" x2="270" y2="310" stroke="#d4af37" stroke-width=".8" opacity=".4"/>
+<text x="200" y="350" text-anchor="middle" font-family="'Alfa Slab One',serif" font-size="18" fill="#d4af37" opacity=".4" letter-spacing="6">JACKPOT HD</text>`,
+
+    (p)=>`<g opacity=".5"><polygon points="60,50 63,42 66,50 74,50 68,55 70,63 63,58 56,63 58,55 52,50" fill="#d4af37"/><polygon points="340,50 342,44 344,50 350,50 345,53 347,59 342,56 337,59 339,53 334,50" fill="#d4af37"/></g>
+<text x="200" y="130" text-anchor="middle" font-family="'Playfair Display',serif" font-size="100" fill="url(#${p}gr)">&#9824;</text>
+<line x1="80" y1="155" x2="320" y2="155" stroke="#d4af37" stroke-width=".8" opacity=".3"/>
+<text x="200" y="230" text-anchor="middle" font-family="'Alfa Slab One',serif" font-size="48" fill="url(#${p}gr)" letter-spacing="3">JACKPOT</text>
+<line x1="80" y1="248" x2="148" y2="248" stroke="#d4af37" stroke-width=".6" opacity=".4"/><polygon points="200,242 205,248 200,254 195,248" fill="#d4af37" opacity=".4"/><line x1="252" y1="248" x2="320" y2="248" stroke="#d4af37" stroke-width=".6" opacity=".4"/>
+<text x="183" y="310" font-family="'Alfa Slab One',serif" font-size="40" fill="#d4af37" opacity=".5">H</text><text x="210" y="310" font-family="'Alfa Slab One',serif" font-size="40" fill="#d4af37" opacity=".5">D</text>`,
+
+    (p)=>`<rect x="60" y="45" width="280" height="310" rx="18" fill="none" stroke="#d4af37" stroke-width="1" opacity=".15"/>
+<g opacity=".4"><polygon points="200,65 203,57 206,65 214,65 208,70 210,78 203,73 196,78 198,70 192,65" fill="#d4af37"/></g>
+<g transform="translate(150,80)"><rect x="0" y="0" width="100" height="130" rx="8" fill="none" stroke="#cc6644" stroke-width="1.5" opacity=".3"/><text x="50" y="90" text-anchor="middle" font-family="'Playfair Display',serif" font-size="55" fill="url(#${p}gr)">&#9824;</text></g>
+<text x="200" y="280" text-anchor="middle" font-family="'Alfa Slab One',serif" font-size="36" fill="url(#${p}gr)" letter-spacing="2">JACKPOT</text>
+<text x="183" y="330" font-family="'Alfa Slab One',serif" font-size="30" fill="#d4af37" opacity=".5">H</text><text x="210" y="330" font-family="'Alfa Slab One',serif" font-size="30" fill="#d4af37" opacity=".5">D</text>`
+  ]
+},
+{
+  name:'Dark Premium', cls:'card-6',
+  palette:['#00d296','#00a3ff','#e8e8e8','#060d12','#0f1923'],
+  defs: p=>`<linearGradient id="${p}gr" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00d296"/><stop offset="100%" stop-color="#00a3ff"/></linearGradient><filter id="${p}g"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><radialGradient id="${p}bg" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="#0f1923"/><stop offset="100%" stop-color="#060d12"/></radialGradient>`,
+  variants:[
+    (p)=>`<circle cx="200" cy="160" r="90" fill="none" stroke="url(#${p}gr)" stroke-width="2.5" opacity=".25"/>
+<circle cx="200" cy="160" r="75" fill="none" stroke="url(#${p}gr)" stroke-width="1" opacity=".12"/>
+<line x1="200" y1="70" x2="200" y2="82" stroke="#00d296" stroke-width="3" opacity=".3"/><line x1="200" y1="238" x2="200" y2="250" stroke="#00d296" stroke-width="3" opacity=".3"/>
+<line x1="110" y1="160" x2="122" y2="160" stroke="#00d296" stroke-width="3" opacity=".3"/><line x1="278" y1="160" x2="290" y2="160" stroke="#00d296" stroke-width="3" opacity=".3"/>
+<line x1="136" y1="96" x2="144" y2="104" stroke="#00a3ff" stroke-width="2" opacity=".2"/><line x1="256" y1="216" x2="264" y2="224" stroke="#00a3ff" stroke-width="2" opacity=".2"/>
+<line x1="256" y1="96" x2="264" y2="104" stroke="#00a3ff" stroke-width="2" opacity=".15"/><line x1="136" y1="216" x2="144" y2="224" stroke="#00a3ff" stroke-width="2" opacity=".15"/>
+<text x="200" y="190" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="90" font-weight="700" fill="url(#${p}gr)" filter="url(#${p}g)">J</text>
+<text x="200" y="305" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="40" font-weight="700" fill="#e8e8e8" letter-spacing="5">JACKPOT</text>
+<rect x="180" y="315" width="40" height="2" fill="url(#${p}gr)" rx="1" opacity=".5"/>
+<text x="182" y="355" font-family="'Space Grotesk',sans-serif" font-size="22" font-weight="400" fill="url(#${p}gr)">H</text><text x="205" y="355" font-family="'Space Grotesk',sans-serif" font-size="22" font-weight="400" fill="url(#${p}gr)">D</text>`,
+
+    (p)=>`<circle cx="200" cy="190" r="120" fill="none" stroke="url(#${p}gr)" stroke-width="3" opacity=".2"/>
+<circle cx="200" cy="190" r="100" fill="none" stroke="url(#${p}gr)" stroke-width="1" opacity=".1"/>
+<line x1="200" y1="70" x2="200" y2="86" stroke="#00d296" stroke-width="3" opacity=".3"/><line x1="200" y1="294" x2="200" y2="310" stroke="#00d296" stroke-width="3" opacity=".3"/>
+<line x1="80" y1="190" x2="96" y2="190" stroke="#00d296" stroke-width="3" opacity=".3"/><line x1="304" y1="190" x2="320" y2="190" stroke="#00d296" stroke-width="3" opacity=".3"/>
+<line x1="115" y1="105" x2="126" y2="116" stroke="#00a3ff" stroke-width="2" opacity=".2"/><line x1="274" y1="264" x2="285" y2="275" stroke="#00a3ff" stroke-width="2" opacity=".2"/>
+<line x1="274" y1="105" x2="285" y2="116" stroke="#00a3ff" stroke-width="2" opacity=".15"/><line x1="115" y1="264" x2="126" y2="275" stroke="#00a3ff" stroke-width="2" opacity=".15"/>
+<text x="200" y="225" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="120" font-weight="700" fill="url(#${p}gr)" filter="url(#${p}g)">J</text>
+<text x="200" y="375" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="16" font-weight="400" fill="url(#${p}gr)" opacity=".5" letter-spacing="4">JACKPOT HD</text>`,
+
+    (p)=>`<text x="200" y="165" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="56" font-weight="700" fill="#e8e8e8" letter-spacing="4">JACKPOT</text>
+<rect x="160" y="178" width="80" height="2" fill="url(#${p}gr)" rx="1" opacity=".4"/>
+<text x="182" y="240" font-family="'Space Grotesk',sans-serif" font-size="56" font-weight="700" fill="url(#${p}gr)">H</text><text x="210" y="240" font-family="'Space Grotesk',sans-serif" font-size="56" font-weight="700" fill="url(#${p}gr)">D</text>
+<circle cx="200" cy="290" r="3" fill="url(#${p}gr)" opacity=".4"/>`,
+
+    (p)=>`<circle cx="200" cy="200" r="130" fill="none" stroke="url(#${p}gr)" stroke-width="1.5" opacity=".12"/>
+<circle cx="200" cy="200" r="110" fill="none" stroke="url(#${p}gr)" stroke-width="1" opacity=".08"/>
+<line x1="200" y1="70" x2="200" y2="86" stroke="#00d296" stroke-width="2" opacity=".2"/><line x1="200" y1="314" x2="200" y2="330" stroke="#00d296" stroke-width="2" opacity=".2"/>
+<line x1="70" y1="200" x2="86" y2="200" stroke="#00d296" stroke-width="2" opacity=".2"/><line x1="314" y1="200" x2="330" y2="200" stroke="#00d296" stroke-width="2" opacity=".2"/>
+<text x="170" y="230" font-family="'Space Grotesk',sans-serif" font-size="80" font-weight="700" fill="url(#${p}gr)" filter="url(#${p}g)">J</text>
+<text x="215" y="230" font-family="'Space Grotesk',sans-serif" font-size="80" font-weight="700" fill="#e8e8e8">H</text>
+<text x="260" y="230" font-family="'Space Grotesk',sans-serif" font-size="80" font-weight="700" fill="url(#${p}gr)" filter="url(#${p}g)">D</text>`,
+
+    (p)=>`<text x="200" y="220" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="160" font-weight="700" fill="url(#${p}gr)" filter="url(#${p}g)">J</text>
+<rect x="150" y="260" width="100" height="40" rx="8" fill="none" stroke="url(#${p}gr)" stroke-width="1.5" opacity=".3"/>
+<text x="200" y="288" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="22" font-weight="700" fill="#e8e8e8" letter-spacing="3">HD</text>
+<text x="200" y="350" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="14" font-weight="400" fill="url(#${p}gr)" opacity=".35" letter-spacing="8">JACKPOT</text>`,
+
+    (p)=>`<rect x="60" y="60" width="280" height="280" rx="140" fill="none" stroke="url(#${p}gr)" stroke-width="2" opacity=".15"/>
+<circle cx="200" cy="160" r="60" fill="none" stroke="url(#${p}gr)" stroke-width="2" opacity=".25"/>
+<line x1="200" y1="100" x2="200" y2="108" stroke="#00d296" stroke-width="2" opacity=".3"/><line x1="200" y1="212" x2="200" y2="220" stroke="#00d296" stroke-width="2" opacity=".3"/>
+<line x1="140" y1="160" x2="148" y2="160" stroke="#00d296" stroke-width="2" opacity=".3"/><line x1="252" y1="160" x2="260" y2="160" stroke="#00d296" stroke-width="2" opacity=".3"/>
+<text x="200" y="180" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="55" font-weight="700" fill="url(#${p}gr)" filter="url(#${p}g)">J</text>
+<text x="200" y="290" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="36" font-weight="700" fill="#e8e8e8" letter-spacing="4">JACKPOT</text>
+<rect x="175" y="300" width="50" height="2" fill="url(#${p}gr)" rx="1" opacity=".4"/>
+<text x="182" y="340" font-family="'Space Grotesk',sans-serif" font-size="24" font-weight="400" fill="url(#${p}gr)">H</text><text x="207" y="340" font-family="'Space Grotesk',sans-serif" font-size="24" font-weight="400" fill="url(#${p}gr)">D</text>`
+  ]
+}
+];
+
+function buildSVG(styleIdx, varIdx) {
+  const s = STYLES[styleIdx];
+  const p = `s${styleIdx}v${varIdx}_`;
+  const bgFill = s.bg || `url(#${p}bg)`;
+  const body = s.variants[varIdx](p);
+  return `<svg id="logo-${styleIdx+1}-${varIdx+1}" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+<defs>${s.defs(p)}</defs>
+<rect width="400" height="400" rx="40" fill="${bgFill}"/>
+${body}
+</svg>`;
+}
+
+function paletteHTML(colors) {
+  return `<div class="palette">${colors.map(c=>`<div class="palette-color" style="background:${c}" data-hex="${c}"></div>`).join('')}</div>`;
+}
+
+function renderMain() {
+  const grid = document.getElementById('main-grid');
+  grid.innerHTML = STYLES.map((s,i)=>`
+<div class="card ${s.cls}">
+  <div class="card-header"><span class="card-number">#${i+1}</span><span class="card-style-name">${s.name}</span></div>
+  <div class="logo-area" onclick="showDetail(${i})">${buildSVG(i,0)}</div>
+  <div class="card-footer">${paletteHTML(s.palette)}<button class="download-btn" onclick="event.stopPropagation();downloadSVG('logo-${i+1}-1','jackpothd-${s.name.toLowerCase().replace(/[\s\/]+/g,'-')}-v1')">Letöltés SVG</button></div>
+</div>`).join('');
+  bindPalette();
+}
+
+function showDetail(styleIdx) {
+  const s = STYLES[styleIdx];
+  document.getElementById('main-view').style.display = 'none';
+  document.getElementById('detail-view').style.display = 'block';
+  document.getElementById('detail-title').textContent = `#${styleIdx+1} ${s.name} — 6 variáció`;
+  const grid = document.getElementById('detail-grid');
+  const slug = s.name.toLowerCase().replace(/[\s\/]+/g,'-');
+  grid.innerHTML = s.variants.map((_,vi)=>`
+<div class="card ${s.cls}">
+  <div class="card-header"><span class="card-number">#${styleIdx+1}.${vi+1}</span><span class="card-style-name">${vi===0?'Eredeti':'Variáció '+(vi+1)}</span></div>
+  <div class="logo-area">${buildSVG(styleIdx,vi)}</div>
+  <div class="card-footer">${paletteHTML(s.palette)}<button class="download-btn" onclick="downloadSVG('logo-${styleIdx+1}-${vi+1}','jackpothd-${slug}-v${vi+1}')">Letöltés SVG</button></div>
+</div>`).join('');
+  bindPalette();
+  window.scrollTo(0,0);
+}
+
+function showMain() {
+  document.getElementById('detail-view').style.display = 'none';
+  document.getElementById('main-view').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+function downloadSVG(id, filename) {
+  const svg = document.getElementById(id);
+  if(!svg) return;
+  const clone = svg.cloneNode(true);
+  clone.removeAttribute('id');
+  clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
+  const s = new XMLSerializer();
+  let str = '<?xml version="1.0" encoding="UTF-8"?>\n' + s.serializeToString(clone);
+  const blob = new Blob([str],{type:'image/svg+xml'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href=url; a.download=filename+'.svg';
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('SVG letöltve: '+filename+'.svg');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+function bindPalette() {
+  document.querySelectorAll('.palette-color').forEach(el=>{
+    el.onclick = e => {
+      e.stopPropagation();
+      navigator.clipboard.writeText(el.dataset.hex).then(()=>showToast('Szín másolva: '+el.dataset.hex));
+    };
+  });
+}
+
+renderMain();
+</script>
+</body>
+</html>
